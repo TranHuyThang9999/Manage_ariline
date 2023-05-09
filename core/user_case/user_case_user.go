@@ -46,11 +46,3 @@ func (u *RepositoryUserCase) UpdatePassword(ctx context.Context, phoneNumber str
 	}
 	return status, nil
 }
-
-//func (u *RepositoryUserCase) FindALlUser(ctx context.Context) ([]*model.User, error) {
-//	users, err := u.user_case.FindAll(ctx)
-//	if err != nil {
-//		return nil, err
-//	}
-//	return users, nil
-//}
