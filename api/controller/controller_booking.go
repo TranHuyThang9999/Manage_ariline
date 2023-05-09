@@ -2,8 +2,9 @@ package controller
 
 import (
 	"btl/infra/model"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (tck *RepositoryControoler) RegisterTicket(c *gin.Context) {
@@ -17,7 +18,9 @@ func (tck *RepositoryControoler) RegisterTicket(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"RegisTicket sucess": status})
+	tck.Success(c, map[string]bool{
+		"is_register tocket": status,
+	})
 }
 func (tck *RepositoryControoler) CanCelTicket(c *gin.Context) {
 	phone_number := c.Param("phone_number")
@@ -37,22 +40,24 @@ func (tck *RepositoryControoler) CanCelTicket(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"Calcel sucess": status})
+	tck.Success(c, map[string]bool{
+		"is_cancel": status,
+	})
 }
 func (tck *RepositoryControoler) GetAllTicket(c *gin.Context) {
-	data, err := tck.ctrl.GetAllTicket(c)
+	tickets, err := tck.ctrl.GetAllTicket(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"Calcel sucess": data})
+	tck.Success(c, tickets)
 }
 func (tck *RepositoryControoler) GetTicketByPhoneNumber(c *gin.Context) {
 	phone_number := c.Param("phone_number")
-	data, err := tck.ctrl.GetTicketByPhoneNumber(c, phone_number)
+	tickets, err := tck.ctrl.GetTicketByPhoneNumber(c, phone_number)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"Code 0 :": data})
+	tck.Success(c, tickets)
 }

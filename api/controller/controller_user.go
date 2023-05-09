@@ -4,8 +4,9 @@ import (
 	"btl/api/middware"
 	"btl/core/user_case"
 	"btl/infra/model"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type RepositoryControoler struct {
@@ -41,7 +42,9 @@ func (t *RepositoryControoler) UpdateProflie(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status update ": status})
+	t.Success(c, map[string]bool{
+		"is_update profile": status,
+	})
 }
 func (t *RepositoryControoler) UpdatePassword(c *gin.Context) {
 	phone := c.Param("phone_number")
@@ -52,29 +55,36 @@ func (t *RepositoryControoler) UpdatePassword(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status update account ": status})
+	t.Success(c, map[string]bool{
+		"is_update password": status,
+	})
 
 }
 
 func (t *RepositoryControoler) Login(c *gin.Context) {
 	var user model.UserLogin
-	if err := c.BindJSON(&user); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+	if err := c.ShouldBindJSON(&user); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
 		return
 	}
 	status, err := t.ctrl.LoginUser(c, &user)
-	if status == false {
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal server error"})
+		return
+	}
+	if !status {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
-
 	token, err := middware.GenerateJWT(user.Password, user.Password)
 
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"token": token})
+
+	t.Success(c, token)
+
 }
 
 func (t *RepositoryControoler) CreateUser(c *gin.Context) {
@@ -98,5 +108,7 @@ func (t *RepositoryControoler) CreateUser(c *gin.Context) {
 		c.JSON(http.StatusConflict, gin.H{"error": "create error"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": "user created successfully"})
+	t.Success(c, map[string]bool{
+		"is_create": status,
+	})
 }

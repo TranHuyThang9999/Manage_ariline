@@ -3,8 +3,9 @@ package controller
 import (
 	"btl/api/middware"
 	"btl/infra/model"
-	"github.com/gin-gonic/gin"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (ctxadmin *RepositoryControoler) CreateAccountAdmin(c *gin.Context) {
@@ -23,7 +24,9 @@ func (ctxadmin *RepositoryControoler) CreateAccountAdmin(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"create account sucess": status})
+	ctxadmin.Success(c, map[string]bool{
+		"is_create": status,
+	})
 }
 func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
 	var user model.UserLogin
@@ -41,7 +44,7 @@ func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})
 	}
-	c.JSON(http.StatusOK, gin.H{"login sucess ": token})
+	ctxadmin.Success(c, token)
 }
 func (ctxadmin *RepositoryControoler) FindByFormAccount(c *gin.Context) {
 	var user model.UserByForm
@@ -54,5 +57,5 @@ func (ctxadmin *RepositoryControoler) FindByFormAccount(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"Info": users})
+	ctxadmin.Success(c, users)
 }

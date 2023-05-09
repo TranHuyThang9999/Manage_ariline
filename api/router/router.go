@@ -7,23 +7,21 @@ import (
 	"btl/core/port"
 	"btl/core/user_case"
 	"btl/infra/database/postGresql"
-	"fmt"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
-func Router() {
+func NewRouter() (*gin.Engine, error) {
 	r := gin.Default()
 
 	r.Use(cors.Default()) //
 
-	//conn := connect()
 	conn, err := config.Connect("config/config.yaml")
 	if err != nil {
-		fmt.Println(err)
-		return
+		return nil, err
 	}
+
 	post_gresql := postGresql.NewPostGresql(conn)
 	port_user := port.RepositoryUser(post_gresql)
 	user_case := user_case.NewUserCaseUser(port_user, post_gresql, post_gresql, post_gresql)
@@ -31,6 +29,7 @@ func Router() {
 
 	r.POST("/user/create", controller_user.CreateUser)
 	r.POST("/user/login", controller_user.Login)
+
 	//user
 	api_user := r.Group("/user", middware.Auth())
 	{
@@ -42,6 +41,7 @@ func Router() {
 		api_user.GET("/info/ticket", controller_user.GetAllTicket)
 		api_user.GET("/info/ticket/phone_number/:phone_number", controller_user.GetTicketByPhoneNumber)
 	}
+
 	/// admin
 	r.POST("/admin/create", controller_user.CreateAccountAdmin)
 	r.POST("/admin/login", controller_user.LoginAdmin)
@@ -54,6 +54,6 @@ func Router() {
 		api_admin.DELETE("/delete/flight/:flight_id/:name_flight", controller_user.DeleteFlight)
 		api_admin.GET("/info/flight", controller_user.FindByFormFlight)
 	}
-	///
-	r.Run()
+
+	return r, nil
 }

@@ -3,5 +3,9 @@ package main
 import "btl/api/router"
 
 func main() {
-	router.Router()
+	r, err := router.NewRouter()
+	if err != nil {
+		panic(err)
+	}
+	r.Run()
 }
