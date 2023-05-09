@@ -1,26 +1,9 @@
 package user_case
 
 import (
-	"btl/core/port"
 	"btl/infra/model"
 	"context"
 )
-
-type RepositoryUserCase struct {
-	user_case       port.RepositoryUser
-	admin_user_case port.RepositoryAdmin
-	flight_use_case port.RepositoryFlight
-	booking         port.RepositoryBooking
-}
-
-func NewUserCaseUser(user port.RepositoryUser, admin port.RepositoryAdmin, flight port.RepositoryFlight, booking port.RepositoryBooking) *RepositoryUserCase {
-	return &RepositoryUserCase{
-		user_case:       user,
-		admin_user_case: admin,
-		flight_use_case: flight,
-		booking:         booking,
-	}
-}
 
 func (u *RepositoryUserCase) CreateAccountUser(ctx context.Context, user *model.User) (bool, error) {
 

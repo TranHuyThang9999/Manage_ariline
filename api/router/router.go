@@ -4,9 +4,7 @@ import (
 	"btl/api/controller"
 	"btl/api/middware"
 	"btl/config"
-	"btl/core/port"
 	"btl/core/user_case"
-	"btl/infra/database/postGresql"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -15,16 +13,13 @@ import (
 func NewRouter() (*gin.Engine, error) {
 	r := gin.Default()
 
-	r.Use(cors.Default()) //
+	r.Use(cors.Default())
 
-	conn, err := config.Connect("config/config.yaml")
+	config, err := config.Connect("config/config.yaml")
 	if err != nil {
 		return nil, err
 	}
-
-	post_gresql := postGresql.NewPostGresql(conn)
-	port_user := port.RepositoryUser(post_gresql)
-	user_case := user_case.NewUserCaseUser(port_user, post_gresql, post_gresql, post_gresql)
+	user_case := user_case.NewPorts(config)
 	controller_user := controller.NewController(user_case)
 
 	r.POST("/user/create", controller_user.CreateUser)
