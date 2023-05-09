@@ -19,6 +19,10 @@ type Config struct {
 		SSLMode  string `yaml:"sslmode"`
 		Timezone string `yaml:"timezone"`
 	} `yaml:"database"`
+	Redis struct {
+		Addr string `yaml:"addr"`
+		DB   int    `yaml:"db"`
+	} `yaml:"redis"`
 }
 
 func LoadConfig(filename string) (*Config, error) {

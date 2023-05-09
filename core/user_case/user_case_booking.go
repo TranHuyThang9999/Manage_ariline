@@ -1,8 +1,10 @@
 package user_case
 
 import (
+	"btl/core/cache"
 	"btl/infra/model"
 	"context"
+	"time"
 )
 
 func (tk *RepositoryUserCase) RegisterTicket(ctx context.Context, ticket *model.BookingRequest) (bool, error) {
@@ -20,7 +22,9 @@ func (tk *RepositoryUserCase) CanCelTicket(ctx context.Context, phone_number str
 	return status, nil
 }
 func (tk *RepositoryUserCase) GetAllTicket(ctx context.Context) ([]*model.Booking, error) {
-	tickets, err := tk.booking.GetAllTicket(ctx)
+	redisClient := cache.NewRedisClient("config/config.yaml")
+	cache := cache.NewRedisCache(tk.booking, redisClient, time.Minute*5)
+	tickets, err := cache.GetAllTicket(ctx)
 	if err != nil {
 		return nil, err
 	}
