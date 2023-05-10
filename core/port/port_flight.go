@@ -1,7 +1,7 @@
 package port
 
 import (
-	"btl/infra/model"
+	"btl/infrastructure/model"
 	"context"
 )
 

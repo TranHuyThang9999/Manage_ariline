@@ -1,33 +1,12 @@
 package controller
 
 import (
-	"btl/api/middware"
-	"btl/core/user_case"
-	"btl/infra/model"
+	"btl/api/middleware"
+	"btl/infrastructure/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
-
-type RepositoryControoler struct {
-	ctrl *user_case.RepositoryUserCase
-}
-
-func NewController(ctl *user_case.RepositoryUserCase) *RepositoryControoler {
-	return &RepositoryControoler{
-		ctrl: ctl,
-	}
-}
-
-//func (t *RepositoryControoler) FindAll(c *gin.Context) {
-//	user, err := t.ctrl.FindALlUser(c)
-//	if err != nil {
-//		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
-//		return
-//	}
-//	c.JSON(http.StatusOK, gin.H{"Infor ": user})
-//
-//}
 
 func (t *RepositoryControoler) UpdateProflie(c *gin.Context) {
 	var user *model.UserUpdate
@@ -76,7 +55,7 @@ func (t *RepositoryControoler) Login(c *gin.Context) {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
-	token, err := middware.GenerateJWT(user.Password, user.Password)
+	token, err := middleware.GenerateJWT(user.Password, user.Password)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})

@@ -2,7 +2,7 @@ package user_case
 
 import (
 	"btl/core/cache"
-	"btl/infra/model"
+	"btl/infrastructure/model"
 	"context"
 	"time"
 )

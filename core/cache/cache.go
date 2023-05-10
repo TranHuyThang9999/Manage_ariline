@@ -2,7 +2,7 @@ package cache
 
 import (
 	"btl/config"
-	"btl/infra/model"
+	"btl/infrastructure/model"
 	"context"
 	"encoding/json"
 	"time"

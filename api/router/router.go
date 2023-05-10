@@ -2,7 +2,7 @@ package router
 
 import (
 	"btl/api/controller"
-	"btl/api/middware"
+	"btl/api/middleware"
 	"btl/config"
 	"btl/core/user_case"
 
@@ -26,7 +26,7 @@ func NewRouter() (*gin.Engine, error) {
 	r.POST("/user/login", controller_user.Login)
 
 	//user
-	api_user := r.Group("/user", middware.Auth())
+	api_user := r.Group("/user", middleware.Auth())
 	{
 		api_user.GET("/info/flight", controller_user.FindByFormFlight)
 
@@ -41,7 +41,7 @@ func NewRouter() (*gin.Engine, error) {
 	r.POST("/admin/create", controller_user.CreateAccountAdmin)
 	r.POST("/admin/login", controller_user.LoginAdmin)
 
-	api_admin := r.Group("/admin", middware.Auth())
+	api_admin := r.Group("/admin", middleware.Auth())
 	{
 		api_admin.GET("/info/user", controller_user.FindByFormAccount)
 		api_admin.POST("/create/flight", controller_user.CreateFlight)

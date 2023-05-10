@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"btl/api/middware"
-	"btl/infra/model"
+	"btl/api/middleware"
+	"btl/infrastructure/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -40,7 +40,7 @@ func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
 		return
 	}
 
-	token, err := middware.GenerateJWT(user.Password, user.Password)
+	token, err := middleware.GenerateJWT(user.Password, user.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})
 	}

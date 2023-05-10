@@ -1,7 +1,7 @@
 package controller
 
 import (
-	"btl/infra/model"
+	"btl/infrastructure/model"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

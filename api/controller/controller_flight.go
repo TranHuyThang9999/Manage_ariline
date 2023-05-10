@@ -1,9 +1,10 @@
 package controller
 
 import (
-	"btl/infra/model"
-	"github.com/gin-gonic/gin"
+	"btl/infrastructure/model"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 func (ft *RepositoryControoler) CreateFlight(c *gin.Context) {

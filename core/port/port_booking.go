@@ -1,7 +1,8 @@
 package port
 
 import (
-	"btl/infra/model"
+	"btl/infrastructure/model"
+
 	"golang.org/x/net/context"
 )
 

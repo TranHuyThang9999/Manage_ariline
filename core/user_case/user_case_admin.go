@@ -1,7 +1,7 @@
 package user_case
 
 import (
-	"btl/infra/model"
+	"btl/infrastructure/model"
 	"context"
 )
 
