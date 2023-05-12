@@ -18,6 +18,9 @@ func (p *RepositoryUserCase) LoginAdmin(ctx context.Context, user *model.UserLog
 	if err != nil {
 		return false, err
 	}
+	if !status {
+		return false, nil
+	}
 	return status, nil
 }
 func (p *RepositoryUserCase) FindByPhoneNumberAdmin(ctx context.Context, phoneNumber string) (*model.Admin, error) {

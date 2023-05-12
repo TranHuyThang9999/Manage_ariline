@@ -39,7 +39,10 @@ func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
 		return
 	}
-
+	if !status {
+		c.JSON(http.StatusOK, gin.H{"error": "Incorrect phone number or password"})
+		return
+	}
 	token, err := middleware.GenerateJWT(user.Password, user.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})

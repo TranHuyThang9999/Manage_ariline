@@ -25,7 +25,7 @@ func (u *RepositoryUserCase) FindByPhoneNumber(ctx context.Context, phoneNumber 
 func (u *RepositoryUserCase) LoginUser(ctx context.Context, user *model.UserLogin) (bool, error) {
 	reponse_user, err := u.user_case.Login(ctx, user)
 	if err != nil {
-		return false, nil
+		return false, err
 	}
 	if !reponse_user {
 		return false, nil

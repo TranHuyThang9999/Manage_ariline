@@ -52,7 +52,7 @@ func (t *RepositoryControoler) Login(c *gin.Context) {
 		return
 	}
 	if !status {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Incorrect phone number or password"})
+		c.JSON(http.StatusOK, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
 	token, err := middleware.GenerateJWT(user.Password, user.Password)

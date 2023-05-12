@@ -4,6 +4,7 @@ import (
 	"btl/infrastructure/model"
 	"context"
 	"errors"
+	"fmt"
 
 	"github.com/google/uuid"
 	"golang.org/x/crypto/bcrypt"
@@ -38,13 +39,13 @@ func (p *collection) Login(ctx context.Context, user *model.UserLogin) (bool, er
 	var u model.User
 	result := p.db.Where("phone_number = ?", user.PhoneNumber).First(&u)
 	if result.Error != nil {
+		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+			return false, fmt.Errorf("record not found for phone number %s", user.PhoneNumber)
+		}
 		return false, result.Error
 	}
-	//ssh
-	record := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(user.Password))
-	if record != nil {
-		return false, errors.New("err ada 2")
-		//log.Println("Invalid password:", record.Error())
+	if err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(user.Password)); err != nil {
+		return false, errors.New("invalid password")
 	}
 	return true, nil
 }
