@@ -47,7 +47,7 @@ func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})
 	}
-	ctxadmin.Success(c, token)
+	ctxadmin.SuccessToken(c, token)
 }
 func (ctxadmin *RepositoryControoler) FindByFormAccount(c *gin.Context) {
 	var user model.UserByForm

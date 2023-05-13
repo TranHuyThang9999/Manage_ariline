@@ -15,3 +15,17 @@ func NewResponseResource(code enums.CodeResponse, message string, body interface
 		Body:    body,
 	}
 }
+
+type ResponseResourcTooken struct {
+	Code    enums.CodeResponse `json:"code"`
+	Message string             `json:"message"`
+	Token   interface{}        `json:"token"`
+}
+
+func NewResponseResourceToken(code enums.CodeResponse, message string, token interface{}) *ResponseResourcTooken {
+	return &ResponseResourcTooken{
+		Code:    code,
+		Message: message,
+		Token:   token,
+	}
+}

@@ -22,3 +22,7 @@ func NewController(ctl *user_case.RepositoryUserCase) *RepositoryControoler {
 func (b *RepositoryControoler) Success(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, resources.NewResponseResource(enums.SuccessCode, "Success", data))
 }
+
+func (b *RepositoryControoler) SuccessToken(c *gin.Context, data interface{}) {
+	c.JSON(http.StatusOK, resources.NewResponseResourceToken(enums.SuccessCode, "Success", data))
+}

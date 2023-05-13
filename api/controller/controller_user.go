@@ -62,7 +62,7 @@ func (t *RepositoryControoler) Login(c *gin.Context) {
 		return
 	}
 
-	t.Success(c, token)
+	t.SuccessToken(c, token)
 
 }
 
