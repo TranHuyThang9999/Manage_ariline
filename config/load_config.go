@@ -23,6 +23,9 @@ type Config struct {
 		Addr string `yaml:"addr"`
 		DB   int    `yaml:"db"`
 	} `yaml:"redis"`
+	Service struct {
+		Address string `yaml:"address"`
+	}
 }
 
 func LoadConfig(filename string) (*Config, error) {

@@ -1,31 +1,18 @@
-tidy":
-	go mod tidy
+BINARY_NAME = main.out
 
-	# Define variables
-APP_NAME=myapp
-SRC=./cmd/main.go
-BUILD_DIR=./bin
-OUTPUT=$(BUILD_DIR)/$(APP_NAME)
-
-# Build the program
 build:
-	@echo "Building $(APP_NAME)..."
-	@go build -o $(OUTPUT) $(SRC)
+	go build -o $(BINARY_NAME) main.go
 
-# Clean up the build directory
-clean:
-	@echo "Cleaning up..."
-	@rm -rf $(BUILD_DIR)
-
-# Run the program
 run: build
-	@echo "Running $(APP_NAME)..."
-	@$(OUTPUT)
+	./$(BINARY_NAME)
 
-# Run tests
-test:
-	@echo "Running tests..."
-	@go test -v ./...
+clean:
+	go clean
+	rm -f $(BINARY_NAME)
+.PHONY: up down
 
-# Default target
-.DEFAULT_GOAL := run
+up:
+	docker-compose -f docker-compose.yaml up -d
+
+down:
+	docker-compose -f docker-compose.yaml down
