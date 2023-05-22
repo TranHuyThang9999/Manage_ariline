@@ -16,3 +16,5 @@ up:
 
 down:
 	docker-compose -f docker-compose.yaml down
+go run:
+	go run "/home/huythang/CodePersonalized/CodeGolang/Private/Luyentap/btl/cmd/main.go"

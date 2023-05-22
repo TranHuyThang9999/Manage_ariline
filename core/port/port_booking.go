@@ -7,10 +7,6 @@ import (
 )
 
 type RepositoryBooking interface {
-	//create -- dawng ky ve
-	//thong tin ve
-	// huy chuyem
-	// thanh toan
 	CreateTicket(ctx context.Context, ticket *model.BookingRequest) (bool, error)
 	CanCelTicket(ctx context.Context, phone_number string, booking_id string) (bool, error)
 	GetAllTicket(ctx context.Context) ([]*model.Booking, error)

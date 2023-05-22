@@ -6,15 +6,21 @@ import (
 	"btl/config"
 	"btl/core/user_case"
 
-	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/sessions"
+	"github.com/gin-contrib/sessions/cookie"
+	"github.com/gin-gonic/contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func NewRouter() (*gin.Engine, error) {
 	r := gin.Default()
 
-	r.Use(cors.Default())
+	//r.Use(cors.Default())
+	//	r.Use(middleware.CORS())
+	store := cookie.NewStore([]byte("yangyaning"))
+	r.Use(sessions.Sessions("mysession", store))
 
+	r.Use(cors.Default())
 	config, err := config.Connect("config/config.yaml")
 	if err != nil {
 		return nil, err

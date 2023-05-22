@@ -55,7 +55,7 @@ func (t *RepositoryControoler) Login(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
-	token, err := middleware.GenerateJWT(user.Password, user.Password)
+	token, err := middleware.GenerateJWT(user.PhoneNumber, "lkk")
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})

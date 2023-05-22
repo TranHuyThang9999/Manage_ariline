@@ -24,7 +24,7 @@ func GenerateJWT(Name string, PhoneNumber string) (string, error) {
 			ExpiresAt: expirationTime.Unix(),
 		},
 	}
-	token := jwt.NewWithClaims(jwt.SigningMethodHS512, claims)
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 	tokenString, err := token.SignedString(jwtKey)
 	if err != nil {
 		return "", nil
