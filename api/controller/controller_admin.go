@@ -47,6 +47,8 @@ func (ctxadmin *RepositoryController) LoginAdmin(c *gin.Context) {
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})
 	}
+	ctxadmin.saveSession(c, user.PhoneNumber, token)
+
 	ctxadmin.SuccessToken(c, token)
 }
 func (ctxadmin *RepositoryController) FindByFormAccount(c *gin.Context) {

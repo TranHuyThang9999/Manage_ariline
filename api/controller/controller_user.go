@@ -61,7 +61,7 @@ func (t *RepositoryController) Login(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
-
+	t.saveSession(c, user.PhoneNumber, token)
 	t.SuccessToken(c, token)
 
 }
