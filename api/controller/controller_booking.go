@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (tck *RepositoryControoler) RegisterTicket(c *gin.Context) {
+func (tck *RepositoryController) RegisterTicket(c *gin.Context) {
 	var booking model.BookingRequest
 	if err := c.BindJSON(&booking); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
@@ -22,7 +22,7 @@ func (tck *RepositoryControoler) RegisterTicket(c *gin.Context) {
 		"is_register tocket": status,
 	})
 }
-func (tck *RepositoryControoler) CanCelTicket(c *gin.Context) {
+func (tck *RepositoryController) CanCelTicket(c *gin.Context) {
 	phone_number := c.Param("phone_number")
 	booking_id := c.Param("booking_id")
 
@@ -44,7 +44,7 @@ func (tck *RepositoryControoler) CanCelTicket(c *gin.Context) {
 		"is_cancel": status,
 	})
 }
-func (tck *RepositoryControoler) GetAllTicket(c *gin.Context) {
+func (tck *RepositoryController) GetAllTicket(c *gin.Context) {
 	tickets, err := tck.ctrl.GetAllTicket(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
@@ -52,7 +52,7 @@ func (tck *RepositoryControoler) GetAllTicket(c *gin.Context) {
 	}
 	tck.Success(c, tickets)
 }
-func (tck *RepositoryControoler) GetTicketByPhoneNumber(c *gin.Context) {
+func (tck *RepositoryController) GetTicketByPhoneNumber(c *gin.Context) {
 	phone_number := c.Param("phone_number")
 	tickets, err := tck.ctrl.GetTicketByPhoneNumber(c, phone_number)
 	if err != nil {

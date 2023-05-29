@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (t *RepositoryControoler) UpdateProflie(c *gin.Context) {
+func (t *RepositoryController) UpdateProflie(c *gin.Context) {
 	var user *model.UserUpdate
 	name := c.Param("user_name")
 	phone := c.Param("phone_number")
@@ -25,7 +25,7 @@ func (t *RepositoryControoler) UpdateProflie(c *gin.Context) {
 		"is_update profile": status,
 	})
 }
-func (t *RepositoryControoler) UpdatePassword(c *gin.Context) {
+func (t *RepositoryController) UpdatePassword(c *gin.Context) {
 	phone := c.Param("phone_number")
 	oldPassword := c.Param("oldPassword")
 	newPassword := c.Param("newPassword")
@@ -40,7 +40,7 @@ func (t *RepositoryControoler) UpdatePassword(c *gin.Context) {
 
 }
 
-func (t *RepositoryControoler) Login(c *gin.Context) {
+func (t *RepositoryController) Login(c *gin.Context) {
 	var user model.UserLogin
 	if err := c.ShouldBindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request payload"})
@@ -66,7 +66,7 @@ func (t *RepositoryControoler) Login(c *gin.Context) {
 
 }
 
-func (t *RepositoryControoler) CreateUser(c *gin.Context) {
+func (t *RepositoryController) CreateUser(c *gin.Context) {
 	var user model.User
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})

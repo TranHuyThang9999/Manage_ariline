@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ft *RepositoryControoler) CreateFlight(c *gin.Context) {
+func (ft *RepositoryController) CreateFlight(c *gin.Context) {
 	var flight model.Flight
 	if err := c.BindJSON(&flight); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
@@ -20,7 +20,7 @@ func (ft *RepositoryControoler) CreateFlight(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"Create sucessful": status})
 }
-func (ft *RepositoryControoler) UpdateFlight(c *gin.Context) {
+func (ft *RepositoryController) UpdateFlight(c *gin.Context) {
 	id := c.Param("flight_id")
 	name := c.Param("name_flight")
 	var flight model.Flight
@@ -35,7 +35,7 @@ func (ft *RepositoryControoler) UpdateFlight(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"Status Update": status})
 }
-func (ft *RepositoryControoler) DeleteFlight(c *gin.Context) {
+func (ft *RepositoryController) DeleteFlight(c *gin.Context) {
 	id := c.Param("flight_id")
 	name := c.Param("name_flight")
 	status, err := ft.ctrl.DeleteFlight(c, id, name)
@@ -45,7 +45,7 @@ func (ft *RepositoryControoler) DeleteFlight(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"Status Update": status})
 }
-func (ft *RepositoryControoler) FindByFormFlight(c *gin.Context) {
+func (ft *RepositoryController) FindByFormFlight(c *gin.Context) {
 	var flight model.FlightByForm
 	err := c.ShouldBind(&flight)
 	if err != nil {

@@ -9,20 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type RepositoryControoler struct {
+type RepositoryController struct {
 	ctrl *user_case.RepositoryUserCase
 }
 
-func NewController(ctl *user_case.RepositoryUserCase) *RepositoryControoler {
-	return &RepositoryControoler{
+func NewController(ctl *user_case.RepositoryUserCase) *RepositoryController {
+	return &RepositoryController{
 		ctrl: ctl,
 	}
 }
 
-func (b *RepositoryControoler) Success(c *gin.Context, data interface{}) {
+func (b *RepositoryController) Success(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, resources.NewResponseResource(enums.SuccessCode, "Success", data))
 }
 
-func (b *RepositoryControoler) SuccessToken(c *gin.Context, data interface{}) {
+func (b *RepositoryController) SuccessToken(c *gin.Context, data interface{}) {
 	c.JSON(http.StatusOK, resources.NewResponseResourceToken(enums.SuccessCode, "Success", data))
 }

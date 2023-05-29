@@ -1,0 +1,9 @@
+FROM ubuntu:22.04
+RUN apt-get update
+RUN command
+
+COPY main.go /
+
+ENV ARILINE=ARILINE
+EXPOSE 9000
+CMD gin runn --host 0.0.0 --port 800

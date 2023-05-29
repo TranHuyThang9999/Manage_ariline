@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func (ctxadmin *RepositoryControoler) CreateAccountAdmin(c *gin.Context) {
+func (ctxadmin *RepositoryController) CreateAccountAdmin(c *gin.Context) {
 	var user model.Admin
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
@@ -28,7 +28,7 @@ func (ctxadmin *RepositoryControoler) CreateAccountAdmin(c *gin.Context) {
 		"is_create": status,
 	})
 }
-func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
+func (ctxadmin *RepositoryController) LoginAdmin(c *gin.Context) {
 	var user model.UserLogin
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
@@ -49,7 +49,7 @@ func (ctxadmin *RepositoryControoler) LoginAdmin(c *gin.Context) {
 	}
 	ctxadmin.SuccessToken(c, token)
 }
-func (ctxadmin *RepositoryControoler) FindByFormAccount(c *gin.Context) {
+func (ctxadmin *RepositoryController) FindByFormAccount(c *gin.Context) {
 	var user model.UserByForm
 	if err := c.ShouldBind(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
