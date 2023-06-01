@@ -4,6 +4,7 @@ import (
 	"btl/api/middleware"
 	"btl/infrastructure/model"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -43,13 +44,12 @@ func (ctxadmin *RepositoryController) LoginAdmin(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
-	token, err := middleware.GenerateJWT(user.Password, user.Password)
+	access_token, err := middleware.GenerateJWT(user.Password, user.Password)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})
 	}
-	ctxadmin.saveSession(c, user.PhoneNumber, token)
-
-	ctxadmin.SuccessToken(c, token)
+	c.SetCookie("access_token", access_token, int(time.Hour)*60, "/", "localhost", false, true)
+	ctxadmin.SuccessToken(c, access_token)
 }
 func (ctxadmin *RepositoryController) FindByFormAccount(c *gin.Context) {
 	var user model.UserByForm

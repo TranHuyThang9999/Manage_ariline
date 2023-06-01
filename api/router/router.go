@@ -41,6 +41,7 @@ func NewRouter() (*gin.Engine, error) {
 
 		api_user.GET("/info/ticket", controller_user.GetAllTicket)
 		api_user.GET("/info/ticket/phone_number/:phone_number", controller_user.GetTicketByPhoneNumber)
+		api_user.GET("/logout", controller_user.Logout)
 	}
 
 	/// admin
@@ -54,6 +55,7 @@ func NewRouter() (*gin.Engine, error) {
 		api_admin.PATCH("/update/flight/:flight_id/:name_flight", controller_user.UpdateFlight)
 		api_admin.DELETE("/delete/flight/:flight_id/:name_flight", controller_user.DeleteFlight)
 		api_admin.GET("/info/flight", controller_user.FindByFormFlight)
+		api_admin.GET("/logout", controller_user.Logout)
 	}
 
 	return r, nil
