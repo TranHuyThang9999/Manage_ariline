@@ -31,6 +31,7 @@ func (ctxadmin *RepositoryController) CreateAccountAdmin(c *gin.Context) {
 }
 func (ctxadmin *RepositoryController) LoginAdmin(c *gin.Context) {
 	var user model.UserLogin
+
 	if err := c.BindJSON(&user); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
 		return
@@ -44,7 +45,8 @@ func (ctxadmin *RepositoryController) LoginAdmin(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
-	access_token, err := middleware.GenerateJWT(user.Password, user.Password)
+	AccessExpire := time.Now().Unix()
+	access_token, err := middleware.GenerateJWT(AccessExpire)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 3": status})
 	}

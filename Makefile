@@ -12,9 +12,9 @@ clean:
 .PHONY: up down
 
 up:
-	docker-compose -f docker-compose.yaml up -d
+	docker compose -f docker-compose.yaml up -d
 
 down:
-	docker-compose -f docker-compose.yaml down
+	docker compose -f docker-compose.yaml down
 go run:
 	go run "/home/huythang/CodePersonalized/CodeGolang/Private/Luyentap/btl/cmd/main.go"

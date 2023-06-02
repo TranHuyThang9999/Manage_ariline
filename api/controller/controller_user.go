@@ -4,6 +4,7 @@ import (
 	"btl/api/middleware"
 	"btl/infrastructure/model"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -55,13 +56,15 @@ func (t *RepositoryController) Login(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{"error": "Incorrect phone number or password"})
 		return
 	}
-	token, err := middleware.GenerateJWT(user.PhoneNumber, "lkk")
+	AccessExpire := time.Now().Unix()
+	token, err := middleware.GenerateJWT(AccessExpire)
 
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to generate token"})
 		return
 	}
-	t.saveSession(c, user.PhoneNumber, token)
+	c.SetCookie("access_token", token, int(time.Hour)*60, "/", "localhost", false, true)
+	//t.saveSession(c, user.PhoneNumber, token)
 	t.SuccessToken(c, token)
 
 }

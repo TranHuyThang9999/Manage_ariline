@@ -10,16 +10,14 @@ import (
 var jwtKey = []byte("supersecretkey")
 
 type JWTClaim struct {
-	Name        string `json:"name" binding:"required"`
-	PhoneNumber string `json:"phone_number" binding:"required"`
+	AccessExpire int64 `json:"access_expire,omitempty"`
 	jwt.StandardClaims
 }
 
-func GenerateJWT(Name string, PhoneNumber string) (string, error) {
+func GenerateJWT(AccessExpire int64) (string, error) {
 	expirationTime := time.Now().Add(1 * time.Hour)
 	claims := &JWTClaim{
-		Name:        Name,
-		PhoneNumber: PhoneNumber,
+		AccessExpire: AccessExpire,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
