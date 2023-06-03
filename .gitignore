@@ -1,0 +1,4 @@
+/config
+/.vscode/
+go.mod
+go.sum

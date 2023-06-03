@@ -45,6 +45,7 @@ func (tck *RepositoryController) CanCelTicket(c *gin.Context) {
 	})
 }
 func (tck *RepositoryController) GetAllTicket(c *gin.Context) {
+
 	tickets, err := tck.ctrl.GetAllTicket(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error 2": err.Error()})
