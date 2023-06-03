@@ -32,12 +32,12 @@ func NewRouter() (*gin.Engine, error) {
 	//user
 	api_user := r.Group("/user", middleware.Auth())
 	{
-		api_user.GET("/info/flight", controller_user.FindByFormFlight)
 
 		api_user.POST("/register/ticket", controller_user.RegisterTicket)
 		api_user.PATCH("/cancel/ticket/:phone_number/:booking_id", controller_user.CanCelTicket)
 
-		api_user.GET("/info/ticket", controller_user.GetAllTicket)
+		api_user.GET("/info/flight", controller_user.FindByFormFlight)
+		api_user.GET("/info/ticket", controller_user.GetAllTicket) //
 		api_user.GET("/info/ticket/phone_number/:phone_number", controller_user.GetTicketByPhoneNumber)
 		api_user.GET("/logout", controller_user.Logout)
 	}
@@ -48,10 +48,12 @@ func NewRouter() (*gin.Engine, error) {
 
 	api_admin := r.Group("/admin", middleware.Auth())
 	{
-		api_admin.GET("/info/user", controller_user.FindByFormAccount)
+
 		api_admin.POST("/create/flight", controller_user.CreateFlight)
 		api_admin.PATCH("/update/flight/:flight_id/:name_flight", controller_user.UpdateFlight)
 		api_admin.DELETE("/delete/flight/:flight_id/:name_flight", controller_user.DeleteFlight)
+
+		api_admin.GET("/info/user", controller_user.FindByFormAccount)
 		api_admin.GET("/info/flight", controller_user.FindByFormFlight)
 		api_admin.GET("/logout", controller_user.Logout)
 	}
