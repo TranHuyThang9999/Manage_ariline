@@ -6,4 +6,4 @@ COPY main.go /
 
 ENV ARILINE=ARILINE
 EXPOSE 9000
-CMD gin runn --host 0.0.0 --port 800
+CMD gin runn --host 0.0.0 --port 8080

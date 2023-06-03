@@ -33,10 +33,10 @@ func (fl *RepositoryUserCase) DeleteFlight(ctx context.Context, flight_id string
 //
 // }
 func (fl *RepositoryUserCase) FindBFlightByForm(ctx context.Context, flight model.FlightByForm) ([]*model.Flight, error) {
-	info_flight, err := fl.flight_use_case.FindBFlightByForm(ctx, flight)
+	info_flights, err := fl.flight_use_case.FindBFlightByForm(ctx, flight)
 	if err != nil {
 		return nil, err
 	}
-	return info_flight, nil
+	return info_flights, nil
 
 }

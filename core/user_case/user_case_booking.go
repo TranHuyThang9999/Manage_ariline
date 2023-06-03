@@ -1,10 +1,8 @@
 package user_case
 
 import (
-	"btl/core/cache"
 	"btl/infrastructure/model"
 	"context"
-	"time"
 )
 
 func (tk *RepositoryUserCase) RegisterTicket(ctx context.Context, ticket *model.BookingRequest) (bool, error) {
@@ -22,13 +20,14 @@ func (tk *RepositoryUserCase) CanCelTicket(ctx context.Context, phone_number str
 	return status, nil
 }
 func (tk *RepositoryUserCase) GetAllTicket(ctx context.Context) ([]*model.Booking, error) {
-	redisClient := cache.NewRedisClient("config/config.yaml")
-	cache := cache.NewRedisCache(tk.booking, redisClient, time.Minute*5)
-	tickets, err := cache.GetAllTicket(ctx)
+	//redisClient := cache.NewRedisClient("config/config.yaml")
+	//cache := cache.NewRedisCache(tk.booking, redisClient, time.Minute*5)
+	//tickets, err := cache.GetAllTicket(ctx)
+	info_tickets, err := tk.booking.GetAllTicket(ctx)
 	if err != nil {
 		return nil, err
 	}
-	return tickets, nil
+	return info_tickets, nil
 }
 func (tk *RepositoryUserCase) GetTicketByPhoneNumber(ctx context.Context, phone_number string) (*model.Booking, error) {
 	tichet, err := tk.booking.GetTicketByPhoneNumber(ctx, phone_number)
