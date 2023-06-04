@@ -11,7 +11,7 @@ const LoginForm = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
 
-  const handleSubmit = async (event) => { 
+  const handleSubmit = async (event) => {
     event.preventDefault();
     setPhoneNumberError(false);
     setPasswordError(false);
@@ -43,9 +43,11 @@ const LoginForm = () => {
       if (response.status === 200) {
         alert('Đăng nhập thành công');
         const token = response.data.token;
-        const phone_number = response.data.phoneNumber
+        const phone_number = response.data.phoneNumber;
         console.log('Token:', token);
-        localStorage.setItem('phoneNumber', phoneNumber);
+        axios.defaults.headers.common['Authorization'] = token;
+        axios.defaults.headers.common['phoneNumber'] = phone_number;
+        localStorage.setItem('phoneNumber', phone_number);
         localStorage.setItem('token', token);
         setAuthToken(token);
         setLoginSuccess(true);
@@ -75,9 +77,7 @@ const LoginForm = () => {
               placeholder="Nhập số điện thoại"
             />
             {phoneNumberError && (
-              <p style={{ color: 'red' }}>
-                Số điện thoại không được để trống
-              </p>
+              <p style={{ color: 'red' }}>Số điện thoại không được để trống</p>
             )}
           </div>
           <div>
@@ -90,9 +90,7 @@ const LoginForm = () => {
               placeholder="Nhập mật khẩu"
             />
             {passwordError && (
-              <p style={{ color: 'red' }}>
-                Mật khẩu không được để trống
-              </p>
+              <p style={{ color: 'red' }}>Mật khẩu không được để trống</p>
             )}
           </div>
           <button type="submit" className="form-button">
