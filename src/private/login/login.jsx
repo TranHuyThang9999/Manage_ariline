@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { setAuthToken } from './axiosConfig';
 import './style.css';
-import NextPage2 from "../user/inforfilghr";
+import NextPage2 from '../user/inforfilghr';
+import CreateUserForm from './private/create_user/create_user';
 
 const LoginForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -37,18 +38,19 @@ const LoginForm = () => {
           headers: {
             'Content-Type': 'application/json',
           },
+          withCredentials: true, // Gửi cookie từ trình duyệt với yêu cầu
         }
       );
 
       if (response.status === 200) {
         alert('Đăng nhập thành công');
         const token = response.data.token;
-        const phone_number = response.data.phoneNumber;
         console.log('Token:', token);
-        axios.defaults.headers.common['Authorization'] = token;
-        axios.defaults.headers.common['phoneNumber'] = phone_number;
-        localStorage.setItem('phoneNumber', phone_number);
-        localStorage.setItem('token', token);
+        
+        // Lưu token và phone_number vào cookie
+        document.cookie = `token=${token}; expires=7`; // Lưu token vào cookie và cài đặt thời hạn
+        document.cookie = `phone_number=${phoneNumber}`;
+        
         setAuthToken(token);
         setLoginSuccess(true);
       } else {
@@ -96,7 +98,9 @@ const LoginForm = () => {
           <button type="submit" className="form-button">
             Login
           </button>
+          
         </form>
+        
       ) : (
         <NextPage2 />
       )}
