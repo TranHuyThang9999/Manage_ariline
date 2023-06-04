@@ -5,8 +5,9 @@ import (
 	"btl/api/middleware"
 	"btl/config"
 	"btl/core/user_case"
+	"time"
 
-	"github.com/gin-gonic/contrib/cors"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +19,15 @@ func NewRouter() (*gin.Engine, error) {
 	// store := cookie.NewStore([]byte("yangyaning"))
 	// r.Use(sessions.Sessions("mysession", store))
 
-	r.Use(cors.Default())
+	//r.Use(cors.Default())
+	r.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000"},
+		AllowMethods:     []string{"PUT", "PATCH", "GET", "POST", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
+	}))
 	config, err := config.Connect("config/config.yaml")
 	if err != nil {
 		return nil, err

@@ -64,7 +64,6 @@ func (t *RepositoryController) Login(c *gin.Context) {
 		return
 	}
 	c.SetCookie("access_token", token, int(time.Hour)*60, "/", "localhost", false, true)
-	//t.saveSession(c, user.PhoneNumber, token)
 	t.SuccessToken(c, token)
 
 }

@@ -66,7 +66,7 @@ func (ft *RepositoryController) FindByFormFlight(c *gin.Context) {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
 			return
 		}
-		c.JSON(http.StatusOK, gin.H{"data": filghts})
+		ft.Success(c, filghts)
 		return
 	}
 
