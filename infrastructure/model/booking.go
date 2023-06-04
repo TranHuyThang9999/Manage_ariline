@@ -35,3 +35,26 @@ type BookingRequest struct {
 	DestinationTime string `json:"destination_time"`
 	DepartureTime   string `json:"departure_time"`
 }
+type BookingByForm struct {
+	BookingID       string  `form:"booking_id"`
+	UserID          string  `form:"user_id"`
+	FlightID        string  `form:"flight_id"`
+	NumberOfSeats   int     `form:"number_of_seats"`
+	Amount          float64 `form:"amount"`
+	UserName        string  `form:"user_name"`
+	PhoneNumber     string  `form:"phone_number"`
+	Address         string  `form:"address"`
+	NumberCMND      string  `form:"number_cmnd"`
+	Nationality     string  `form:"nationality"`
+	Language        string  `form:"language"`
+	NameAirline     string  `form:"name_airline"`
+	Destination     string  `form:"destination"`
+	Departure       string  `form:"departure"`
+	DestinationTime string  `form:"destination_time"`
+	DepartureTime   string  `form:"departure_time"`
+	TicketType      string  `form:"ticket_type"`
+	Fare            float64 `form:"fare"`
+	Status          string  `form:"status"`
+	NameFlight      string  `form:"name_flight"`
+	RegisterTime    string  `:"register_time"`
+}

@@ -12,4 +12,5 @@ type RepositoryBooking interface {
 	GetAllTicket(ctx context.Context) ([]*model.Booking, error)
 	GetTicketByPhoneNumber(ctx context.Context, phone_number string) (*model.Booking, error)
 	GetStatusTicket(ctx context.Context, phone_number string, booking_id string) (*model.Booking, error)
+	GetInforTicketByForm(ctx context.Context, booking model.BookingByForm) ([]*model.Booking, error)
 }

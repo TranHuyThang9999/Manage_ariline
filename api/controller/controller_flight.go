@@ -1,8 +1,12 @@
 package controller
 
 import (
+	"btl/core/cache/helper"
 	"btl/infrastructure/model"
+	"encoding/json"
+	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -47,15 +51,35 @@ func (ft *RepositoryController) DeleteFlight(c *gin.Context) {
 }
 func (ft *RepositoryController) FindByFormFlight(c *gin.Context) {
 	var flight model.FlightByForm
+
 	err := c.ShouldBind(&flight)
 	if err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
 		return
 	}
-	users, err := ft.ctrl.FindBFlightByForm(c, flight)
+	cachedData, err := helper.GetValueCache("infor flights")
+	if err == nil && cachedData != nil {
+		var filghts []*model.Flight
+		err := json.Unmarshal(cachedData, &filghts)
+		if err != nil {
+			fmt.Println(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": filghts})
+		return
+	}
+
+	info_flights, err := ft.ctrl.FindBFlightByForm(c, flight)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"Info": users})
+	data := info_flights
+	cachedData, err = helper.SetValueCache(c, "infor flights", data, time.Minute*1)
+	if err != nil {
+		fmt.Println(err)
+	}
+	//c.JSON(http.StatusOK, gin.H{"data": data})
+	ft.Success(c, data)
 }

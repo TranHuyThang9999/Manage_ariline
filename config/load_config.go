@@ -25,7 +25,10 @@ type Config struct {
 	} `yaml:"redis"`
 	Service struct {
 		Address string `yaml:"address"`
-	}
+	} `yaml:"service"`
+	Expiretime struct {
+		Expiration int `yaml:"expiration"`
+	} `yaml:"expiretime"`
 }
 
 func LoadConfig(filename string) (*Config, error) {

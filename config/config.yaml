@@ -11,4 +11,5 @@ redis:
   db: 0
 service:
   address: 8080
-
+expiretime:
+  expiration: 10

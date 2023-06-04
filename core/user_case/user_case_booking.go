@@ -43,3 +43,10 @@ func (tk *RepositoryUserCase) GetStatusTicket(ctx context.Context, phone_number 
 	}
 	return ticket, nil
 }
+func (tk *RepositoryUserCase) GetAllTicketByForm(ctx context.Context, booking model.BookingByForm) ([]*model.Booking, error) {
+	ticket, err := tk.booking.GetInforTicketByForm(ctx, booking)
+	if err != nil {
+		return nil, err
+	}
+	return ticket, nil
+}

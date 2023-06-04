@@ -1,8 +1,14 @@
 package controller
 
 import (
+	"btl/config"
+	"btl/core/cache/helper"
 	"btl/infrastructure/model"
+	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -61,4 +67,43 @@ func (tck *RepositoryController) GetTicketByPhoneNumber(c *gin.Context) {
 		return
 	}
 	tck.Success(c, tickets)
+}
+func (tck *RepositoryController) GetAllTicketByForm(c *gin.Context) {
+
+	var ticketRequest model.BookingByForm
+
+	config, err := config.LoadConfig("config/config.yaml")
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
+	err = c.ShouldBind(&ticketRequest)
+	if err != nil {
+		c.JSON(http.StatusBadGateway, gin.H{"status": "fail", "message": err.Error()})
+		return
+	}
+	cacheData, err := helper.GetValueCache("infor ticketed")
+	if err != nil && cacheData != nil {
+		var booking []*model.Booking
+		err := json.Unmarshal(cacheData, &booking)
+		if err != nil {
+			fmt.Println(err)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Internal Server Error"})
+			return
+		}
+		c.JSON(http.StatusOK, gin.H{"data": booking})
+		return
+	}
+	tickets, err := tck.ctrl.GetAllTicketByForm(c, ticketRequest)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
+		return
+	}
+	data := tickets
+	cacheData, err = helper.SetValueCache(c, "infor ticketed", data, time.Minute*time.Duration(config.Expiretime.Expiration))
+	if err != nil {
+		fmt.Println(err)
+	}
+	tck.Success(c, data)
 }

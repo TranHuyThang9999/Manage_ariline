@@ -106,7 +106,7 @@ func (tk *collection) CreateTicket(ctx context.Context, ticket *model.BookingReq
 	if err != nil {
 		return false, err
 	}
-	
+
 	return true, nil
 }
 func (tk *collection) TriggerReduce(ctx context.Context) (bool, error) {
@@ -141,4 +141,30 @@ func (tk *collection) GetTicketByPhoneNumber(ctx context.Context, phone_number s
 		return nil, err
 	}
 	return &booking, nil
+}
+func (tk *collection) GetInforTicketByForm(ctx context.Context, booking model.BookingByForm) ([]*model.Booking, error) {
+	tickets := make([]*model.Booking, 0)
+	if result := tk.db.Where(model.Booking{
+		BookingID:       booking.BookingID,
+		FlightID:        booking.BookingID,
+		NumberOfSeats:   booking.NumberOfSeats,
+		Amount:          booking.Amount,
+		UserName:        booking.UserID,
+		PhoneNumber:     booking.PhoneNumber,
+		Address:         booking.Address,
+		NumberCMND:      booking.NumberCMND,
+		Nationality:     booking.Nationality,
+		Destination:     booking.Destination,
+		Departure:       booking.DestinationTime,
+		DestinationTime: booking.DepartureTime,
+		DepartureTime:   booking.Departure,
+		TicketType:      booking.TicketType,
+		Fare:            booking.Fare,
+		Status:          booking.Status,
+		NameFlight:      booking.NameFlight,
+		RegisterTime:    booking.RegisterTime,
+	}).Find(&tickets).Error; result != nil {
+		return nil, result
+	}
+	return tickets, nil
 }

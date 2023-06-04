@@ -62,7 +62,7 @@ func (p *collection) DeleteFlight(ctx context.Context, flightID string, nameFlig
 //}
 
 func (p *collection) FindBFlightByForm(ctx context.Context, flight model.FlightByForm) ([]*model.Flight, error) {
-	data := make([]*model.Flight, 0)
+	flights := make([]*model.Flight, 0)
 	if result := p.db.Where(model.Flight{
 		FlightID:        flight.FlightID,
 		NameAirline:     flight.NameAirline,
@@ -75,10 +75,10 @@ func (p *collection) FindBFlightByForm(ctx context.Context, flight model.FlightB
 		Fare:            flight.Fare,
 		Status:          flight.Status,
 		Name_flight:     flight.Name_flight,
-	}).Find(&data).Error; result != nil {
+	}).Find(&flights).Error; result != nil {
 		return nil, result
 	}
-	return data, nil
+	return flights, nil
 }
 func (p *collection) GetByFlightById(ctx context.Context, flight_id string) (*model.Flight, error) {
 	var flight model.Flight
