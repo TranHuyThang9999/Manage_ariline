@@ -3,7 +3,7 @@ import axios from 'axios';
 import { setAuthToken } from './axiosConfig';
 import './style.css';
 import NextPage2 from '../user/inforfilghr';
-import CreateUserForm from './private/create_user/create_user';
+import CreateUserForm from '../create_user/create_user';
 
 const LoginForm = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
@@ -11,6 +11,7 @@ const LoginForm = () => {
   const [phoneNumberError, setPhoneNumberError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [showCreateUserForm, setShowCreateUserForm] = useState(false);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -38,7 +39,7 @@ const LoginForm = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          withCredentials: true, // Gửi cookie từ trình duyệt với yêu cầu
+          withCredentials: true,
         }
       );
 
@@ -46,11 +47,12 @@ const LoginForm = () => {
         alert('Đăng nhập thành công');
         const token = response.data.token;
         console.log('Token:', token);
-        
-        // Lưu token và phone_number vào cookie
-        document.cookie = `token=${token}; expires=7`; // Lưu token vào cookie và cài đặt thời hạn
-        document.cookie = `phone_number=${phoneNumber}`;
-        
+
+        document.cookie = `token=${token}; expires=7`;
+       document.cookie = `phone_number=${phoneNumber}`;
+
+        localStorage.setItem('phone_number', phoneNumber);
+        localStorage.setItem('token',token)
         setAuthToken(token);
         setLoginSuccess(true);
       } else {
@@ -64,9 +66,14 @@ const LoginForm = () => {
     }
   };
 
+  const handleSignUp = (event) => {
+    event.preventDefault();
+    setShowCreateUserForm(true);
+  };
+
   return (
     <div>
-      {!loginSuccess ? (
+      {!loginSuccess && !showCreateUserForm ? (
         <form onSubmit={handleSubmit} className="login-form">
           <h2>Account Login</h2>
           <div>
@@ -98,12 +105,18 @@ const LoginForm = () => {
           <button type="submit" className="form-button">
             Login
           </button>
-          
+          <p>
+            Not registered?{' '}
+            <button className="signup-link" onClick={handleSignUp}>
+              Sign up
+            </button>
+          </p>
         </form>
-        
-      ) : (
-        <NextPage2 />
-      )}
+      ) : null}
+
+      {showCreateUserForm && <CreateUserForm/>}
+
+      {loginSuccess && <NextPage2 />}
     </div>
   );
 };
