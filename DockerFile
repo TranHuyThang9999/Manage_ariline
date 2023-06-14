@@ -1,9 +1,28 @@
-FROM ubuntu:22.04
-RUN apt-get update
-RUN command
+# Sử dụng hình ảnh golang chính thức với phiên bản mong muốn
+FROM golang:latest
 
-COPY main.go /
+# Sao chép mã nguồn vào thư mục làm việc trong container
+WORKDIR /app
+COPY . .
 
-ENV ARILINE=ARILINE
-EXPOSE 9000
-CMD gin runn --host 0.0.0 --port 8080
+# Cài đặt các dependencies nếu cần thiết
+RUN go mod download
+
+# Biên dịch chương trình Golang
+RUN go build -o main ./cmd/main.go
+
+# Chạy ứng dụng khi container được khởi chạy
+CMD ["./main"]
+
+# Cấu hình PostgreSQL
+ENV POSTGRES_HOST=localhost
+ENV POSTGRES_USER=postgres
+ENV POSTGRES_PASSWORD=1234
+ENV POSTGRES_DB=ariline
+ENV POSTGRES_PORT=5432
+ENV POSTGRES_SSLMODE=disable
+ENV POSTGRES_TIMEZONE=Asia/Shanghai
+
+# Cấu hình Redis
+ENV REDIS_ADDR=localhost:6379
+ENV REDIS_DB=0

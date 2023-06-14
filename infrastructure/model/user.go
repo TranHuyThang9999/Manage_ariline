@@ -58,3 +58,15 @@ type UserByForm struct {
 	Nationality string `form:"nationality"`
 	Language    string `form:"language"`
 }
+type UserUpdatePassword struct {
+	UserName    string  `json:"user_name"`
+	PhoneNumber string  `json:"phone_number"`
+	Email       string  `json:"email"`
+	Password    string  `json:"password"`
+	Address     string  `json:"address"`
+	DateBirth   string  `json:"date_birth"`
+	NumberCMND  string  `json:"number_cmnd"`
+	Nationality string  `json:"nationality"`
+	Language    string  `json:"language"`
+	Amount      float64 `json:"amount"`
+}

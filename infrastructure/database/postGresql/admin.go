@@ -64,7 +64,7 @@ func (p *collection) FindByPhoneNumberAdmin(ctx context.Context, phoneNumber str
 }
 func (p *collection) FindAccountByForm(ctx context.Context, user *model.UserByForm) ([]*model.User, error) {
 	users := make([]*model.User, 0)
-	if result := p.db.Where(model.User{
+	result := p.db.Where(model.User{
 		UserID:      user.UserID,
 		UserName:    user.UserName,
 		PhoneNumber: user.PhoneNumber,
@@ -74,8 +74,12 @@ func (p *collection) FindAccountByForm(ctx context.Context, user *model.UserByFo
 		NumberCMND:  user.NumberCMND,
 		Nationality: user.Nationality,
 		Language:    user.Language,
-	}).Find(&users).Error; result != nil {
-		return nil, result
+	}).Find(&users)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, nil
 	}
 	return users, nil
 }

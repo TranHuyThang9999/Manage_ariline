@@ -30,6 +30,18 @@ func (t *RepositoryController) UpdatePassword(c *gin.Context) {
 	phone := c.Param("phone_number")
 	oldPassword := c.Param("oldPassword")
 	newPassword := c.Param("newPassword")
+
+	infor, err := t.ctrl.FindByForm(c, &model.UserByForm{
+		PhoneNumber: phone,
+	})
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error 1": err.Error()})
+		return
+	}
+	if len(infor) == 0 {
+		t.Success(c, "error account")
+	}
+
 	status, err := t.ctrl.UpdatePassword(c, phone, oldPassword, newPassword)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error 2": err.Error()})
@@ -77,6 +89,17 @@ func (t *RepositoryController) CreateUser(c *gin.Context) {
 	user_s, _ := t.ctrl.FindByPhoneNumber(c, user.PhoneNumber)
 	if user_s != nil {
 		c.JSON(http.StatusConflict, gin.H{"error": "user already exists"})
+		return
+	}
+	infor_user, err := t.ctrl.FindByForm(c, &model.UserByForm{
+		Email: user.Email,
+	})
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error 1": err.Error()})
+		return
+	}
+	if len(infor_user) > 0 {
+		c.JSON(http.StatusConflict, gin.H{"error": "email already exists"})
 		return
 	}
 	status, err := t.ctrl.CreateAccountUser(c.Request.Context(), &user)

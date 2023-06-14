@@ -91,11 +91,13 @@ func (p *collection) UpdatePassword(ctx context.Context, phoneNumber string, old
 		return false, errors.New("invalid password")
 	}
 
-	err := u.SetPassword(newPassword)
+	hash, err := bcrypt.GenerateFromPassword([]byte(newPassword), bcrypt.DefaultCost)
 	if err != nil {
 		return false, err
 	}
-	result = p.db.Save(&u)
+	result = p.db.Where("phone_number = ?", phoneNumber).Updates(&model.User{
+		Password: string(hash),
+	})
 	if result.Error != nil {
 		return false, result.Error
 	}
@@ -117,6 +119,9 @@ func (p *collection) FindByNumber(ctx context.Context, phoneNumber string) (*mod
 	result := p.db.Where("phone_number = ?", phoneNumber).First(&user)
 	if result.Error != nil {
 		return nil, result.Error
+	}
+	if result.RowsAffected == 0 {
+		return nil, nil
 	}
 	return &user, nil
 }

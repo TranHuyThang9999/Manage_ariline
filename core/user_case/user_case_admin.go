@@ -35,5 +35,8 @@ func (p *RepositoryUserCase) FindByForm(ctx context.Context, user *model.UserByF
 	if err != nil {
 		return nil, err
 	}
+	if users == nil {
+		return nil, nil
+	}
 	return users, nil
 }

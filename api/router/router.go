@@ -44,6 +44,7 @@ func NewRouter() (*gin.Engine, error) {
 
 		api_user.POST("/register/ticket", controller_user.RegisterTicket)
 		api_user.PATCH("/cancel/ticket/:phone_number/:booking_id", controller_user.CanCelTicket)
+		api_user.PATCH("/reset/:phone_number/:oldPassword/:newPassword", controller_user.UpdatePassword)
 
 		api_user.GET("/info/flight", controller_user.FindByFormFlight)
 		api_user.GET("/info/ticket/phone_number/:phone_number", controller_user.GetTicketByPhoneNumber)
