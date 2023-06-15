@@ -50,7 +50,7 @@ func (tck *RepositoryController) CanCelTicket(c *gin.Context) {
 		"is_cancel": status,
 	})
 }
-func (tck *RepositoryController) GetAllTicket(c *gin.Context) {
+func (tck *RepositoryController) GetAllTicketInforRegister(c *gin.Context) {
 
 	tickets, err := tck.ctrl.GetAllTicket(c)
 	if err != nil {

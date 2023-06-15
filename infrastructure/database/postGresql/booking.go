@@ -1,6 +1,7 @@
 package postGresql
 
 import (
+	"btl/core/enums"
 	"btl/infrastructure/model"
 	"context"
 	"errors"
@@ -63,9 +64,9 @@ func (tk *collection) CreateTicket(ctx context.Context, ticket *model.BookingReq
 	strTime := registerTime.Format("2006-01-02 15:04:05") // chuyển đổi thành chuỗi theo định dạng mong muốn
 
 	var fare float64
-	if ticket.TicketType == "one way ticket" {
+	if ticket.TicketType == enums.TypeTicketOnWay {
 		fare = flight.Fare
-	} else if ticket.TicketType == "two way ticket" {
+	} else if ticket.TicketType == enums.TypeTickettwoWay {
 		fare = flight.Fare * 2
 	} else {
 		return false, errors.New("invalid ticket type")
